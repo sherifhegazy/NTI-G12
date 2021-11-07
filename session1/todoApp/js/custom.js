@@ -6,7 +6,7 @@
 // localStorage.setItem("tasks", JSON.stringify(tasks))
 
 const addTaskForm = document.querySelector("#addTask")
-
+const tbody = document.querySelector("tbody")
 const readLocalStaorageData = () =>{
     let data
     try{
@@ -45,5 +45,44 @@ if(addTaskForm){
     
 }
 
+const showTasks = (tasks) =>{
+    tasks.forEach( task => {
+        let tr = document.createElement("tr")
+        tbody.appendChild(tr)
+        td = document.createElement("td")
+        tr.appendChild(td)
+        td.textContent= task.id      
+        td = document.createElement("td")
+        tr.appendChild(td)
+        td.textContent= task.title     
+        td = document.createElement("td")
+        tr.appendChild(td)
+        td.textContent= task.content     
+        td = document.createElement("td")
+        tr.appendChild(td)
+        td.textContent= task.status      
+        td = document.createElement("td")
+        tr.appendChild(td)
+        td.textContent= task.dueDate
+        td = document.createElement("td")
+        tr.appendChild(td)
+        delBtn = document.createElement("button")       
+        delBtn.textContent="delete"
+        delBtn.classList = "btn btn-danger mx-2"
+        td.appendChild(delBtn) 
+        delBtn = document.createElement("button")       
+        delBtn.textContent="show"
+        delBtn.classList = "btn btn-primary mx-2"
+        td.appendChild(delBtn) 
+        delBtn = document.createElement("button")       
+        delBtn.textContent="edit"
+        delBtn.classList = "btn btn-warning mx-2"
+        td.appendChild(delBtn) 
+    })
+}
 
+if(tbody){
+    let data = readLocalStaorageData()
+    showTasks(data)
+}
 
