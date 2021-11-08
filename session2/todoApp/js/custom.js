@@ -59,15 +59,18 @@ const showTasks = (tasks) =>{
         const td = createMyOwnElement(tr, "td")
         const delBtn = createMyOwnElement(td, "button","delete","btn btn-danger mx-2")
         delBtn.addEventListener("click", ()=> deleteEle(i, tasks))
-        const showBtn = createMyOwnElement(td, "button", "show","btn btn-primary mx-2")
+        const showBtn = createMyOwnElement(td, "button", "show","btn btn-primary mx-2 showBtn")
         showBtn.addEventListener("click", function(e){
             const single = document.querySelector("#single")
-            single.classList.toggle("d-none")
+            s = document.querySelectorAll(".showBtn")
+            s.forEach((ss, ind)=> { if(ind!=i) ss.textContent="show" } )
             if(this.textContent=="show"){
+                single.classList.remove('d-none')
                  this.textContent="hide"
                  single.textContent = task.title
              }
              else{
+                 single.classList.add('d-none')
                  this.textContent="show"
              }
         })
