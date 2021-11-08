@@ -11,7 +11,6 @@ const readLocalStaorageData = () =>{
     }
     return data
 }
-
 const writeDataToLocalStorage = (data) =>{
     localStorage.setItem("Tasks", JSON.stringify(data))
 }
@@ -37,7 +36,11 @@ if(addTaskForm){
     })
     
 }
-
+const deleteEle = (i, tasks)=>{
+    tasks.splice(i, 1)
+    writeDataToLocalStorage(tasks)
+    showTasks(tasks)
+}
 const createMyOwnElement = (parent, ele, txt=null, classes=null) =>{
     myElement = document.createElement(ele)
     parent.appendChild(myElement)
@@ -45,9 +48,9 @@ const createMyOwnElement = (parent, ele, txt=null, classes=null) =>{
     if(classes) myElement.classList=classes
     return myElement
 }
-
 const showTasks = (tasks) =>{
-    tasks.forEach( task => {
+    tbody.textContent=""
+    tasks.forEach( (task, i) => {
         const tr = createMyOwnElement(tbody, "tr")
         for(item in task) {
             if(item=="status") task[item] = task[item]? "done": "not finished";
@@ -55,7 +58,19 @@ const showTasks = (tasks) =>{
         }
         const td = createMyOwnElement(tr, "td")
         const delBtn = createMyOwnElement(td, "button","delete","btn btn-danger mx-2")
+        delBtn.addEventListener("click", ()=> deleteEle(i, tasks))
         const showBtn = createMyOwnElement(td, "button", "show","btn btn-primary mx-2")
+        showBtn.addEventListener("click", function(e){
+            const single = document.querySelector("#single")
+            single.classList.toggle("d-none")
+            if(this.textContent=="show"){
+                 this.textContent="hide"
+                 single.textContent = task.title
+             }
+             else{
+                 this.textContent="show"
+             }
+        })
         const editBtn = createMyOwnElement(td, "button", "edit", "btn btn-warning mx-2")
     })
 }
