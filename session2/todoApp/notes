@@ -1,0 +1,28 @@
+bank system task:
+add customer => accNum=> unique ,name, address => { city, street, building number }, balance , transactions =>{ type, balance, status}
+show all
+add balance => must be more than 100 and less than 6000
+withdraw => must be < balance and >100
+
+on show single => open new page with header of main data and table of transactions
+
+user = {
+    accNum:1,
+    name:"marwa",
+    address:{ city: "cairo",street:"nasr",building:5},
+    balance:1000,
+    transactions:[]
+}
+
+{type: "withdraw", 500} balance:500
+accNum   name   actions(show, withdraw, add balance)
+
+accNum: 1  
+name
+address
+
+transactions
+type   balance
+
+
+remain balnce = 500

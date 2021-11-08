@@ -75,6 +75,10 @@ const showTasks = (tasks) =>{
              }
         })
         const editBtn = createMyOwnElement(td, "button", "edit", "btn btn-warning mx-2")
+        editBtn.addEventListener("click", function(e){
+            localStorage.setItem("editId", i)
+            window.location.replace("editTask.html");
+        })
     })
 }
 
@@ -83,3 +87,27 @@ if(tbody){
     showTasks(data)
 }
 
+const editTask= document.querySelector("#editTask")
+if(editTask){
+    try{
+        if(!localStorage.getItem("editId")) window.location.replace("index.html")
+        const tasks = readLocalStaorageData()
+        const i = localStorage.getItem("editId")
+        editTask.elements.taskTitle.value = tasks[i].title
+        editTask.elements.taskContent.value = tasks[i].content
+        editTask.elements.taskDueDate.value = tasks[i].dueDate
+        editTask.addEventListener("submit", function(e){
+            e.preventDefault()
+            tasks[i].title= editTask.elements.taskTitle.value
+            tasks[i].content = editTask.elements.taskContent.value
+            tasks[i].dueDate = editTask.elements.taskDueDate.value
+            writeDataToLocalStorage(tasks)
+            localStorage.removeItem("editId")
+            window.location.replace("index.html")
+            })
+    
+    }
+catch(e){
+    window.location.replace("index.html")
+}
+}
