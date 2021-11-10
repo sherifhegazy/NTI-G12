@@ -1,0 +1,8 @@
+users.json => [{user}]
+name
+email
+id => unique id
+
+validation email true
+chalk message colors
+unique id

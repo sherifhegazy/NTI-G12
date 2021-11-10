@@ -1,0 +1,21 @@
+{
+  "name": "marwa",
+  "version": "2.0.1",
+  "description": "our first app",
+  "main": "index.js",
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "validator": "^13.7.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "marwa",
+    "node",
+    "test"
+  ],
+  "author": "marwa radwan",
+  "license": "ISC"
+}
