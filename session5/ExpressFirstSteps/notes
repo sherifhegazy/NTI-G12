@@ -1,0 +1,13 @@
+npm i -g nodemon   => nodemon index
+
+npm init
+npm i express
+
+to stop terminal use ctrl+c
+
+
+npm i hbs
+
+app.set("view engine","hbs")
+
+res.send => res.render

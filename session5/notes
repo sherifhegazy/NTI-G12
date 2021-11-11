@@ -1,0 +1,9 @@
+npm i express => setup express framework
+
+global packages:
+npm i -g => install globally
+
+nodemon => listen updates
+npm i -g nodemon
+
+node index  ==> nodemon index
