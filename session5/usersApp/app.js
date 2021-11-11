@@ -1,5 +1,6 @@
 
 // npm modules ( npm i yargs chalk validator uniqid )
+const { strict } = require("yargs")
 const yargs = require("yargs")
 const utills = require("./utils/myFunctions")
 //yargs commands
@@ -28,9 +29,9 @@ yargs.command({
 //show single user
 yargs.command({
     command:"singleUser",
-    builder:{},
+    builder:{id: {type:"string", demandOption:true}},
     handler:function(argv){
-
+        utills.getSingle(argv.id)
     }
 })
 //edit user
@@ -44,9 +45,9 @@ yargs.command({
 // delete user
 yargs.command({
     command:"delUser",
-    builder:{},
+    builder:{id: {type:"string", demandOption:true}},
     handler:function(argv){
-
+        utills.deleteUser(argv.id)
     }
 })
 //end commands

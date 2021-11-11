@@ -20,7 +20,22 @@ const readDataFromFile = () =>{
     return data
 }
 //end working with json
-
+//search user by id
+searchUserById = (allUsers, userId)=>{
+    let index = allUsers.findIndex(user => {
+        return userId == user.id
+    })
+    if(index==-1) throw new Error("user not found")
+    return index
+}
+//print single user
+printSingle = (user)=>{
+    console.log(chalk.green(`id: ${user.id} - user name: ${user.name} - user email: ${user.email}`))
+}
+//print error message 
+printError = (e)=>{
+    console.log(chalk.red(e.message))
+}
 //add new user
 addNewUser = (userData)=>{
     try{
@@ -34,7 +49,7 @@ addNewUser = (userData)=>{
         console.log(chalk.green("data added successfuly")) 
     }
     catch(e){
-        console.log(chalk.red(e.message))
+        printError(e)
     }
 }
 //get all users data
@@ -42,15 +57,44 @@ getAllData = () =>{
     const allUsers = readDataFromFile()
     if(allUsers.length==0)return console.log(chalk.red("No users yet"))
     console.log(`your file has ${allUsers.length} record`)
-    allUsers.forEach(user=>{
-        console.log(chalk.green(`id: ${user.id} - user name: ${user.name} - user email: ${user.email}`))
-    })
-
+    allUsers.forEach(user=>printSingle(user))
 }
 //get single user
+getSingle=(id)=>{
+    try{
+        let allUsers = readDataFromFile()
+        let index = searchUserById(allUsers, id)
+        printSingle(allUsers[index])
+    }
+    catch(e){
+        printError(e)
+    }
 
+}
 //delete user
-
+deleteUser =(id)=>{
+    try{
+        let allUsers = readDataFromFile()
+        let index = searchUserById(allUsers, id)
+        allUsers.splice(index, 1)
+        writeDataToFile(allUsers)
+        console.log(chalk.green("user deleted"))
+    }
+    catch(e){
+        printError(e)
+    }
+}
 //edit user
-
-module.exports = { addNewUser, getAllData }
+editUser =(id, userNewData)=>{
+    try{
+        let allUsers = readDataFromFile()
+        let index = searchUserById(allUsers, id)
+        ////////////////////////
+        writeDataToFile(allUsers)
+        console.log(chalk.green("user updated"))
+    }
+    catch(e){
+        printError(e)
+    }
+}
+module.exports = { addNewUser, getAllData, getSingle, deleteUser, editUser }
