@@ -37,9 +37,21 @@ yargs.command({
 //edit user
 yargs.command({
     command:"editUser",
-    builder:{},
+    builder:{
+        id:{type:"string", demandOption:true},
+        name:{type:"string"},
+        email:{type:"string"}
+    },
     handler:function(argv){
-
+        mainData = ["name", "email"]
+        newUserData={}
+        // for(x in argv){
+        //     if(x!='id' && x!= "_" && x!="$0") newUserData[x] = argv[x]
+        // }
+        mainData.forEach(element => {
+            if(argv[element]) newUserData[element]= argv[element]
+        } );
+        editUser(argv.id, newUserData)
     }
 })
 // delete user

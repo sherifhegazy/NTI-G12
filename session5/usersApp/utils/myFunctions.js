@@ -36,13 +36,36 @@ printSingle = (user)=>{
 printError = (e)=>{
     console.log(chalk.red(e.message))
 }
+validateIsEmail = (email)=>{
+    if(!validator.isEmail(email)) throw new Error("invalid Email")
+}
+checkUniqueData = (allUsers, data, attr, index=null) =>{
+    const notUnique = allUsers.find((user, i)=> (user[attr] == data && index!=i))
+    if(notUnique) throw new Error(`${attr} used before`)
+}
+
+//edit user
+editUser =(id, userNewData)=>{
+    try{
+        let allUsers = readDataFromFile()
+        let index = searchUserById(allUsers, id)
+        validateIsEmail(userNewData.email)
+        checkUniqueData(allUsers, userNewData.email, "email", index)    
+        for(el in userNewData) allUsers[index][el]=userNewData[el]  
+        writeDataToFile(allUsers)
+        console.log(chalk.green("user updated"))
+    }
+    catch(e){
+        printError(e)
+    }
+}
+
 //add new user
 addNewUser = (userData)=>{
     try{
-        if(!validator.isEmail(userData.email)) throw new Error("invalid Email")
+        validateIsEmail(userData.email)
         const allUsers = readDataFromFile()
-        const notUnique = allUsers.find(user=> user.email == userData.email)
-        if(notUnique) throw new Error("Email used before")
+        checkUniqueData(allUsers, userData.email, "email")
         let user = { id:uniqid(), ...userData }
         allUsers.push(user)
         writeDataToFile(allUsers)   
@@ -79,19 +102,6 @@ deleteUser =(id)=>{
         allUsers.splice(index, 1)
         writeDataToFile(allUsers)
         console.log(chalk.green("user deleted"))
-    }
-    catch(e){
-        printError(e)
-    }
-}
-//edit user
-editUser =(id, userNewData)=>{
-    try{
-        let allUsers = readDataFromFile()
-        let index = searchUserById(allUsers, id)
-        ////////////////////////
-        writeDataToFile(allUsers)
-        console.log(chalk.green("user updated"))
     }
     catch(e){
         printError(e)
