@@ -4,12 +4,11 @@ require('dotenv').config()
 const express = require("express")
 const validator = require("validator")
 const hbs = require("hbs")
-const uniqid=require("uniqid")
 //call required built-in packages
 const path = require("path")
-const fs = require("fs")
 //create express instance
 const app = express()
+app.use(express.urlencoded({extended:true}))
 //use views, partials, statics
 app.set("view engine", "hbs")
 app.use(express.static(path.join(__dirname, "../public")))
