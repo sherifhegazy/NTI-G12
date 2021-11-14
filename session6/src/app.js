@@ -17,6 +17,6 @@ app.set('views', path.join(__dirname, "../front/views"))
 hbs.registerPartials(path.join(__dirname, "../front/layouts"))
 //using routes
 const userRoutes = require('../routes/user.routes')
-app.use("/user",userRoutes)
+app.use(userRoutes)
 //export all app
 module.exports=app
