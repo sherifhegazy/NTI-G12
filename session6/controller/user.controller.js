@@ -1,5 +1,6 @@
 const fs = require("fs")
 const uniqid=require("uniqid")
+const { all } = require("../routes/user.routes")
 
 const readDataFromJSON =()=>{
     let data
@@ -46,31 +47,50 @@ const addPostLogic = (req,res) => {
     res.redirect('/')
 }
 const showAll = (req,res)=>{
+    const allUsers = readDataFromJSON()
     res.render("showall", {
-        pageTitle:"All Users"
+        pageTitle:"All Users",
+        allUsers,
+        noData: allUsers.length==0? true: false
     })
 }
 
 const showSingle = (req,res)=>{
-    const user = {name: "marwa radwan", age:36, email:"marwaradwan@techsexperts.com"}
-    res.render("single", {
-        pageTitle:"Single User",
-        user
-    })
+    let allUsers= readDataFromJSON()
+    let user = allUsers.find(user=> user.id==req.params.id)
+    if(!user) res.render('err404', {pageTitle:'user not found', err:"invalid user id"})
+    res.render("single", { pageTitle:"Single User", user })
 }
 
 const editUser = (req,res)=>{
+    let allUsers= readDataFromJSON()
+    let user = allUsers.find(user=> user.id==req.params.id)
+    if(!user) res.render('err404', {pageTitle:'user not found', err:"invalid user id"})
     res.render("edit", {
-        pageTitle:"Edit User"
+        pageTitle:"Edit User", user
     })
+}
+const editUserLogic = (req,res)=>{
+    let allUsers= readDataFromJSON()
+    let user = allUsers.findIndex(user=> user.id==req.params.id)
+    // allUsers[user].name=req.body.name
+    // allUsers[user].age=req.body.age
+    // allUsers[user].email = req.body.email
+    allUsers[user]={...req.body, id:req.params.id}
+    writeDataToJSON(allUsers)
+    res.redirect("/")
 }
 
 const delAll = (req,res)=>{
-    res.send("delete all")
+    writeDataToJSON([])
+    res.redirect("/")
 }
 
 const delSingle = (req,res)=>{
-    res.send("delete")
+    let allUsers = readDataFromJSON()
+    allUsers = allUsers.filter(user=> user.id!=req.params.id)
+    writeDataToJSON(allUsers)
+    res.redirect("/")
 }
 
-module.exports = { add, addPost,addPostLogic, showAll, showSingle, editUser, delAll, delSingle }
+module.exports = { add, addPost,addPostLogic, showAll, showSingle, editUser, editUserLogic, delAll, delSingle }

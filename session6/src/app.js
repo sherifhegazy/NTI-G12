@@ -17,5 +17,8 @@ hbs.registerPartials(path.join(__dirname, "../front/layouts"))
 //using routes
 const userRoutes = require('../routes/user.routes')
 app.use(userRoutes)
+app.get('*', (req,res)=>{
+    res.render('err404', {PageTitle: "error page", err:"page Not Found"})
+})
 //export all app
 module.exports=app
